@@ -1,0 +1,8 @@
+.searchArea {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+li {
+    list-style: none;
+}
