@@ -1,0 +1,15 @@
+.tesodev-logo {
+    width: 30rem;
+    height: 15rem;
+    cursor: pointer;
+}
+
+.search-input {
+    border-radius: 10px;
+}
+
+.search-button {
+    color: white;
+    background-color: #01447b;
+    border-radius: 10px;
+}
