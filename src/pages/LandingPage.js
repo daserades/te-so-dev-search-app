@@ -6,10 +6,11 @@ import axios from "axios";
 
 const LandingPage = () => {
   const [showMiniSearch, setShowMiniSearch] = useState(false);
-  const [searchWord, setSearchWord] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchArray, setSearchArray] = useState([]);
 
   const handleMiniSearch = () => {
-    if (searchWord.length >= 3) {
+    if (searchQuery.length >= 3) {
       setShowMiniSearch(true);
       document.querySelector(".error-message").innerHTML = "";
     } else
@@ -18,10 +19,8 @@ const LandingPage = () => {
   };
 
   const handleSearhWord = (e) => {
-    setSearchWord(e.target.value);
+    setSearchQuery(e.target.value);
   };
-
-  const [searchArray, setSearchArray] = useState([]);
 
   useEffect(() => {
     axios("mockData.json").then((res) => setSearchArray(res.data.data));
@@ -40,7 +39,7 @@ const LandingPage = () => {
         <div className="row mt-3 d-flex">
           <input
             className="col-md-10 my-1 search-input rounded-3"
-            placeholder="Search ..."
+            placeholder="Search by name ..."
             type="searh"
             minLength="3"
             id="search"
@@ -56,7 +55,7 @@ const LandingPage = () => {
           <div className="error-message"></div>
         </div>
       </div>
-      <MiniSearch searchArray={searchArray} show={showMiniSearch} />
+      <MiniSearch searchArray={searchArray} show={showMiniSearch} searchQuery={searchQuery} />
     </>
   );
 };
