@@ -1,14 +1,3 @@
-.tesodev-logo-lg {
-    width: 28rem;
-    height: 12rem;
-    cursor: pointer;
-}
-
-/* .search-input {
-    border-radius: 10px;
-    display: inline !important; 
-} */
-
 .search-button {
     color: white;
     background-color: #01447b;
@@ -21,4 +10,9 @@ input:invalid {
 
 input:invalid:focus {
    border-color: red;
+}
+
+.tesodev-logo-sm {
+    width: 14rem;
+    height: 6rem;
 }

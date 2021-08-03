@@ -13,12 +13,25 @@ const LandingPage = () => {
     if (searchQuery.length >= 3) {
       setShowMiniSearch(true);
       document.querySelector(".error-message").innerHTML = "";
-    } else
+    } else {
+      setShowMiniSearch(false);
       document.querySelector(".error-message").innerHTML =
         '<p class="text-danger">You must enter at least 3 letters to search.</p>';
+    }
   };
 
-  const handleSearhWord = (e) => {
+  // const ayar = useEffect(() => {
+  //   if (searchQuery.length >= 3) {
+  //     setShowMiniSearch(true);
+  //     document.querySelector(".error-message").innerHTML = "";
+  //   } else {
+  //     setShowMiniSearch(false);
+  //     document.querySelector(".error-message").innerHTML =
+  //       '<p class="text-danger">You must enter at least 3 letters to search.</p>';
+  //   }
+  // }, [handleMiniSearch]);
+
+  const handleSearchWord = (e) => {
     setSearchQuery(e.target.value);
   };
 
@@ -31,31 +44,37 @@ const LandingPage = () => {
       <div className="container">
         <div className="row mt-5">
           <img
-            className="tesodev-logo mx-auto col-12"
+            className="tesodev-logo-lg mx-auto col-12"
             src={tesodevLogo}
             alt="Tesodev"
           />
         </div>
-        <div className="row mt-3 d-flex">
-          <input
-            className="col-md-10 my-1 search-input rounded-3"
-            placeholder="Search by name ..."
-            type="searh"
-            minLength="3"
-            id="search"
-            onChange={handleSearhWord}
-          />
-          <button
-            type="submit"
-            onClick={handleMiniSearch}
-            className="col-md-2 btn my-1 rounded-3 float-end search-button"
-          >
-            Search
-          </button>
-          <div className="error-message"></div>
+        <div className="row mt-3 ">
+          <div className="d-flex">
+            <input
+              className="col-md-9 my-1 search-input rounded-3"
+              placeholder="Search by name ..."
+              type="searh"
+              minLength="3"
+              id="search"
+              onChange={handleSearchWord}
+            />
+            <button
+              type="submit"
+              onClick={handleMiniSearch}
+              className="col-md-2 btn my-1 rounded-3 ms-3 float-end search-button"
+            >
+              Search
+            </button>
+          </div>
         </div>
+        <div className="error-message"></div>
       </div>
-      <MiniSearch searchArray={searchArray} show={showMiniSearch} searchQuery={searchQuery} />
+      <MiniSearch
+        searchArray={searchArray}
+        show={showMiniSearch}
+        searchQuery={searchQuery}
+      />
     </>
   );
 };

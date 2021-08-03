@@ -1,8 +1,8 @@
 import React from "react";
 import "../styles/miniSearch.css";
+import {Link} from "react-router-dom"
 
 const MiniSearch = ({ show, searchArray, searchQuery }) => {
-  console.log(searchArray);
 
   let filteredSearchArray = searchArray.filter((item) => {
     return item[0].toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1;
@@ -12,7 +12,7 @@ const MiniSearch = ({ show, searchArray, searchQuery }) => {
     <>
       <div className={`container mt-3 ${show ? "" : "d-none"}`}>
         <div className="row">
-          <div className="col-md-10 searchArea">
+          <div className="col-md-9 ms-1 searchArea">
             <ul>
               {filteredSearchArray.slice(0, 3).map((item, index) => {
                 return (
@@ -33,9 +33,16 @@ const MiniSearch = ({ show, searchArray, searchQuery }) => {
                 );
               })}
             </ul>
-            <p className="text-center">
-              <strong>Show more ...</strong>
-            </p>
+            <Link to={{
+              pathname:"/results",
+              state:{
+                searchFilteredArray : filteredSearchArray
+              }
+            }}>
+              <p className="text-center">
+                <strong>Show more ...</strong>
+              </p>
+            </Link>
           </div>
         </div>
       </div>
