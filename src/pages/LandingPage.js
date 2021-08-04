@@ -36,7 +36,11 @@ const LandingPage = () => {
   };
 
   useEffect(() => {
-    axios("mockData.json").then((res) => setSearchArray(res.data.data));
+    const fetchPosts = async () => {
+      const res = await axios("mockData.json");
+      setSearchArray(res.data.data);
+    };
+    fetchPosts();
   }, []);
 
   return (
@@ -69,12 +73,14 @@ const LandingPage = () => {
           </div>
         </div>
         <div className="error-message"></div>
-      </div>
-      <MiniSearch
+        <div className="mb-4">
+        <MiniSearch
         searchArray={searchArray}
         show={showMiniSearch}
         searchQuery={searchQuery}
       />
+        </div>
+      </div>
     </>
   );
 };
