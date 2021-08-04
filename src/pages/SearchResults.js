@@ -3,6 +3,7 @@ import { Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import tesodevMiniLogo from "../images/tesodev_sm.png";
 import "../styles/searchResults.css";
+import SearchPagination from "../components/Pagination";
 
 const SearchResults = ({ location }) => {
   const [orderedArray, setOrderedArray] = useState(
@@ -18,11 +19,21 @@ const SearchResults = ({ location }) => {
     setOrderedArray(sortedArray);
   };
   const orderByYearAscending = () => {
-    console.log("x");
+    const sortedArray = [...orderedArray].sort((a, b) => {
+      let dateA = new Date(a[3].slice(-4), a[3].slice(3, 5), a[3].slice(0, 2));
+      let dateB = new Date(b[3].slice(-4), b[3].slice(3, 5), b[3].slice(0, 2));
+      return dateA - dateB;
+    });
+    setOrderedArray(sortedArray);
   };
 
   const orderByYearDescending = () => {
-    console.log("x");
+    const sortedArray = [...orderedArray].sort((a, b) => {
+      let dateA = new Date(a[3].slice(-4), a[3].slice(3, 5), a[3].slice(0, 2));
+      let dateB = new Date(b[3].slice(-4), b[3].slice(3, 5), b[3].slice(0, 2));
+      return dateB - dateA;
+    });
+    setOrderedArray(sortedArray);
   };
 
   return (
@@ -61,8 +72,8 @@ const SearchResults = ({ location }) => {
                   <Dropdown.Item onClick={orderByNameAscending}>
                     Name Ascending
                   </Dropdown.Item>
-                  <Dropdown.Item>
-                    <p onClick={orderByNameDescending}>Name Descending</p>
+                  <Dropdown.Item onClick={orderByNameDescending}>
+                    Name Descending
                   </Dropdown.Item>
                   <Dropdown.Item onClick={orderByYearAscending}>
                     Year Ascending
@@ -96,6 +107,7 @@ const SearchResults = ({ location }) => {
           </div>
         </div>
       </div>
+      <SearchPagination/>
     </>
   );
 };
