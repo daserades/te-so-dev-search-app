@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import tesodevMiniLogo from "../images/tesodev_sm.png";
+import SearchPagination from "../components/SearchPagination";
 import "../styles/searchResults.css";
-import SearchPagination from "../components/Pagination";
 
 const SearchResults = ({ location }) => {
   const [orderedArray, setOrderedArray] = useState(
     location.state.searchFilteredArray
   );
 
+  // Ordering
   const orderByNameAscending = () => {
     const sortedArray = [...orderedArray].sort((a, b) => (a < b ? -1 : 1));
     setOrderedArray(sortedArray);
@@ -35,6 +36,18 @@ const SearchResults = ({ location }) => {
     });
     setOrderedArray(sortedArray);
   };
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+
+  // Get Current Posts
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = orderedArray.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change Page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
   return (
     <>
@@ -84,8 +97,8 @@ const SearchResults = ({ location }) => {
                 </Dropdown.Menu>
               </Dropdown>
             </div>
-            <ul className="deneme">
-              {orderedArray.map((item, value) => {
+            <ul>
+              {currentItems.map((item, value) => {
                 return (
                   <li key={value}>
                     <p className="mt-2">
@@ -107,7 +120,7 @@ const SearchResults = ({ location }) => {
           </div>
         </div>
       </div>
-      <SearchPagination/>
+      <SearchPagination itemsPerPage={itemsPerPage} totalItems={orderedArray.length} paginate={paginate}/>
     </>
   );
 };
