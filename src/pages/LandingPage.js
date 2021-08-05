@@ -11,30 +11,30 @@ const LandingPage = () => {
 
   const handleMiniSearch = () => {
     if (searchQuery.length >= 3) {
-      setShowMiniSearch(true);
       document.querySelector(".error-message").innerHTML = "";
     } else {
-      setShowMiniSearch(false);
       document.querySelector(".error-message").innerHTML =
         '<p class="text-danger">You must enter at least 3 letters to search.</p>';
     }
   };
 
-  // const ayar = useEffect(() => {
-  //   if (searchQuery.length >= 3) {
-  //     setShowMiniSearch(true);
-  //     document.querySelector(".error-message").innerHTML = "";
-  //   } else {
-  //     setShowMiniSearch(false);
-  //     document.querySelector(".error-message").innerHTML =
-  //       '<p class="text-danger">You must enter at least 3 letters to search.</p>';
-  //   }
-  // }, [handleMiniSearch]);
+  // Min. Letter Control
+  useEffect(() => {
+    if (searchQuery.length >= 3) {
+      document.querySelector(".error-message").innerHTML = "";
+      setShowMiniSearch(true);
+    } else {
+      document.querySelector(".error-message").innerHTML =
+        '<p class="text-danger">You must enter at least 3 letters to search.</p>';
+      setShowMiniSearch(false);
+    }
+  }, [searchQuery]);
 
   const handleSearchWord = (e) => {
     setSearchQuery(e.target.value);
   };
 
+  // Fetch mockData.json
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await axios("mockData.json");
@@ -57,7 +57,7 @@ const LandingPage = () => {
           <div className="d-flex">
             <input
               className="col-md-9 my-1 search-input rounded-3"
-              placeholder="Search by name ..."
+              placeholder="Search by name ... (ex: 'bre', 'vin')"
               type="searh"
               minLength="3"
               id="search"
@@ -74,11 +74,11 @@ const LandingPage = () => {
         </div>
         <div className="error-message"></div>
         <div className="mb-4">
-        <MiniSearch
-        searchArray={searchArray}
-        show={showMiniSearch}
-        searchQuery={searchQuery}
-      />
+          <MiniSearch
+            searchArray={searchArray}
+            show={showMiniSearch}
+            searchQuery={searchQuery}
+          />
         </div>
       </div>
     </>

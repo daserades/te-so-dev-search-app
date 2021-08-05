@@ -1,0 +1,7 @@
+.pagination-page{
+    cursor: pointer;
+}
+
+active {
+    background-color: #01447b;
+}

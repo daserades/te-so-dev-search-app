@@ -6,9 +6,12 @@ import SearchPagination from "../components/SearchPagination";
 import "../styles/searchResults.css";
 
 const SearchResults = ({ location }) => {
+  // Get Items
   const [orderedArray, setOrderedArray] = useState(
     location.state.searchFilteredArray
   );
+  // Stock Items
+  const [searchArray] = useState(location.state.searchArray);
 
   // Ordering
   const orderByNameAscending = () => {
@@ -27,7 +30,6 @@ const SearchResults = ({ location }) => {
     });
     setOrderedArray(sortedArray);
   };
-
   const orderByYearDescending = () => {
     const sortedArray = [...orderedArray].sort((a, b) => {
       let dateA = new Date(a[3].slice(-4), a[3].slice(3, 5), a[3].slice(0, 2));
@@ -40,14 +42,34 @@ const SearchResults = ({ location }) => {
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
-
   // Get Current Posts
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = orderedArray.slice(indexOfFirstItem, indexOfLastItem);
-
   // Change Page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber)
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchWord = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Min. Letter Control
+  const handleSearch = () => {
+    if (searchQuery.length >= 3) {
+      document.querySelector(".error-message").innerHTML = "";
+      setOrderedArray(newFilteredSearchArray);
+    } else {
+      //setShowMiniSearch(false);
+      document.querySelector(".error-message").innerHTML =
+        '<p class="text-danger">You must enter at least 3 letters to search.</p>';
+    }
+  };
+
+  let newFilteredSearchArray = searchArray.filter((item) => {
+    return item[0].toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1;
+  });
 
   return (
     <>
@@ -64,14 +86,18 @@ const SearchResults = ({ location }) => {
           </div>
           <div className="col-md-8 my-auto d-flex">
             <input
-              className="col-md-8 search-input rounded-3"
-              placeholder="Search by name ..."
+              className="col-md-8 search-input rounded-3 ms-1"
+              placeholder="Search by name ... (ex: 'bre', 'vin')"
               type="search"
               minLength="3"
+              onChange={handleSearchWord}
             />
-            <button className="btn search-button ms-3 ">Search</button>
+            <button onClick={handleSearch} className="btn search-button ms-3">
+              Search
+            </button>
           </div>
         </div>
+        <div className="error-message col-md-9 text-center"></div>
       </div>
       <div className="container mt-4">
         <div className="row">
@@ -120,7 +146,11 @@ const SearchResults = ({ location }) => {
           </div>
         </div>
       </div>
-      <SearchPagination itemsPerPage={itemsPerPage} totalItems={orderedArray.length} paginate={paginate}/>
+      <SearchPagination
+        itemsPerPage={itemsPerPage}
+        totalItems={orderedArray.length}
+        paginate={paginate}
+      />
     </>
   );
 };
